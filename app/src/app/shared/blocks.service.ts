@@ -13,11 +13,15 @@ export class BlocksService {
 
     public loadBlocks(callback = () => {}) {
         const builder = this.requestsService.getRequestBuilder();
-        builder.setPath('get');
+        builder.setPath('get/index.php');
         builder.setHost(this.globalService.apiHost);
         builder.addParam('token', this.globalService.token);
         builder.get().subscribe( (result: any) => {
-            alert(JSON.stringify(result));
+            if (result.success) {
+                
+            } else {
+
+            }
             callback();
         });
     }
