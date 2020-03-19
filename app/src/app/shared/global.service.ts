@@ -5,10 +5,9 @@ import {Plugins} from '@capacitor/core';
     providedIn: 'root'
 })
 export class GlobalService {
-    public global = {};
-
-    public clear() {
-        this.global = {};
-    }
+    public token = 'test_token22';
+    public apiHost = 'http://jothapunkt.de/zeiterfassung/';
+    public port = '';
+    public blocks = [];
 }
 

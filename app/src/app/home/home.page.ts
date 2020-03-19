@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import {TestService} from '../shared/request.service';
+import {BlocksService} from "../shared/blocks.service";
 
 @Component({
   selector: 'app-home',
@@ -8,8 +8,12 @@ import {TestService} from '../shared/request.service';
 })
 export class HomePage {
 
-  constructor(
-      private testService: TestService
+  constructor(private blocksService: BlocksService
   ) {}
 
+  public doRefresh(event) {
+    this.blocksService.loadBlocks(() => {
+      event.target.complete();
+    });
+  }
 }
