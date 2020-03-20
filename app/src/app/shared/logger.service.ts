@@ -34,7 +34,7 @@ export class LoggerService {
         this.logs.push(entry);
 
         if (logConsole) {
-            switch(level) {
+            switch (level) {
                 case(this.ERROR):
                     console.error(message);
                     break;
@@ -47,12 +47,52 @@ export class LoggerService {
         }
     }
 
+    // Shorthand function
     public error(message: string, tag: string = this.defaultTag, logConsole = true) {
         this.log(message, this.ERROR, tag, logConsole);
     }
 
+    // Shorthand function
     public warn(message: string, tag: string = this.defaultTag, logConsole = true) {
         this.log(message, this.WARNING, tag, logConsole);
+    }
+
+    public sortLogs(order = 'latest') {
+        if (order === 'latest') {
+            this.logs = this.logs.sort((a, b) => {
+                return a.timestamp - b.timestamp;
+            });
+
+            return this.logs;
+        }
+
+        if (order === 'oldest') {
+            this.logs = this.logs.sort((a, b) => {
+                return b.timestamp - a.timestamp;
+            });
+
+            return this.logs;
+        }
+
+        this.error('Unknown log sort order: "' + order + '"', 'logSort');
+        return this.logs;
+    }
+
+    /*
+     * Filter logs by level.
+     * Pass a list of levels that should be included in the filtered logs.
+     * Allows all levels by default
+     */
+    public getFilteredLogs(allow = this.validLevels) {
+        const filteredLogs = [];
+
+        this.logs.forEach((entry) => {
+            if (allow.indexOf(entry.level) !== -1) {
+                filteredLogs.push(entry);
+            }
+        });
+
+        return filteredLogs;
     }
 }
 
