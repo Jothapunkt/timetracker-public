@@ -5,22 +5,101 @@ import {Plugins} from '@capacitor/core';
     providedIn: 'root'
 })
 export class LoggerService {
-    constructor() {
-    }
-
     public logs = [];
+    public filteredLogs = [];
 
     public ERROR = 'error';
     public WARNING = 'warning';
     public INFO = 'info';
 
     public validLevels = [this.ERROR, this.WARNING, this.INFO];
+    public levelColors = {
+        default: 'medium',
+        filtered: 'light'
+    };
 
     public defaultTag = '--';
+    public filterTag = null;
+    currentFilter = [];
 
-    public log(message: string, level: string = this.INFO, tag: string = this.defaultTag, logConsole = true) {
+    constructor() {
+        this.levelColors[this.ERROR] = 'danger';
+        this.levelColors[this.WARNING] = 'warning';
+        this.levelColors[this.INFO] = 'primary';
+
+        console.log = () => {
+            this.log(Array.from(arguments).join(' '));
+        };
+        console.info = () => {
+            this.log(Array.from(arguments).join(' '));
+        };
+        console.error = () => {
+            this.error(Array.from(arguments).join(' '));
+        };
+        console.warn = () => {
+            this.warn(Array.from(arguments).join(' '));
+        };
+    }
+
+    public stdlog = console.log.bind(console);
+    public stderror = console.error.bind(console);
+    public stdwarn = console.warn.bind(console);
+
+    public addFilter(level: string) {
         if (this.validLevels.indexOf(level) === -1) {
-            console.error('Invalid log level: ' + level);
+            this.warn('Invalid filter level: ' + level);
+            return;
+        }
+
+        if (this.currentFilter.indexOf(level) === -1) {
+            this.currentFilter.push(level);
+        }
+    }
+
+    public removeFilter(level: string) {
+        if (this.validLevels.indexOf(level) === -1) {
+            this.warn('Invalid filter level: ' + level);
+            return;
+        }
+
+        if (this.currentFilter.indexOf(level) !== -1) {
+            this.currentFilter.splice(this.currentFilter.indexOf(level), 1);
+        }
+    }
+
+    public toggleFilter(level: string) {
+        if (this.validLevels.indexOf(level) === -1) {
+            this.warn('Invalid filter level: ' + level);
+            return;
+        }
+
+        if (this.currentFilter.indexOf(level) === -1) {
+            this.addFilter(level);
+        } else {
+            this.removeFilter(level);
+        }
+    }
+
+    public isFiltered(level: string) {
+        if (this.validLevels.indexOf(level) === -1) {
+            this.warn('Invalid filter level: ' + level);
+            return;
+        }
+
+        return (this.currentFilter.indexOf(level) !== -1);
+    }
+
+    public log(message: any, level: string = this.INFO, tag: string = this.defaultTag, logConsole = true) {
+        message = message.toString();
+        if (message.trim().length === 0 && message.length !== 0) {
+            message = '<<only whitespace>>';
+        }
+        if (message.length === 0) {
+            message = '<<empty string>>';
+        }
+
+        if (this.validLevels.indexOf(level) === -1) {
+            this.stderror.apply(console, ['Invalid log level: ' + level]);
             return;
         }
 
@@ -36,24 +115,26 @@ export class LoggerService {
         if (logConsole) {
             switch (level) {
                 case(this.ERROR):
-                    console.error(message);
+                    this.stderror.apply(console, [message]);
                     break;
                 case(this.WARNING):
-                    console.warn(message);
+                    this.stdwarn.apply(console, [message]);
                     break;
                 default:
-                    console.log(message);
+                    this.stdlog.apply(console, [message]);
             }
         }
+
+        this.getFilteredLogs();
     }
 
     // Shorthand function
-    public error(message: string, tag: string = this.defaultTag, logConsole = true) {
+    public error(message: any, tag: string = this.defaultTag, logConsole = true) {
         this.log(message, this.ERROR, tag, logConsole);
     }
 
     // Shorthand function
-    public warn(message: string, tag: string = this.defaultTag, logConsole = true) {
+    public warn(message: any, tag: string = this.defaultTag, logConsole = true) {
         this.log(message, this.WARNING, tag, logConsole);
     }
 
@@ -75,24 +156,55 @@ export class LoggerService {
         }
 
         this.error('Unknown log sort order: "' + order + '"', 'logSort');
+        this.getFilteredLogs();
         return this.logs;
     }
 
     /*
      * Filter logs by level.
-     * Pass a list of levels that should be included in the filtered logs.
-     * Allows all levels by default
+     * Pass a list of levels that should not be included in the filtered logs.
+     * Uses current filter by default, which is initialized to allow all levels
      */
-    public getFilteredLogs(allow = this.validLevels) {
-        const filteredLogs = [];
+    public getFilteredLogs(allow = this.currentFilter, tag: string = this.filterTag) {
+        this.filteredLogs = [];
 
         this.logs.forEach((entry) => {
-            if (allow.indexOf(entry.level) !== -1) {
-                filteredLogs.push(entry);
+            if (allow.indexOf(entry.level) === -1 && (tag === null || tag === entry.tag)) {
+                this.filteredLogs.push(entry);
             }
         });
 
-        return filteredLogs;
+        this.stdlog.apply(console, ['filteredLogs update: ' + this.filteredLogs.length]);
+        return this.filteredLogs;
+    }
+
+    public setFilterTag(tag: string) {
+        this.filterTag = tag;
+        this.getFilteredLogs();
+    }
+
+    public getColor(level: string) {
+        if (this.isFiltered(level)) {
+            return this.levelColors.filtered;
+        }
+        if (typeof this.levelColors[level] !== 'undefined') {
+            return this.levelColors[level];
+        } else {
+            return this.levelColors.default;
+        }
+    }
+
+    public formatTimestamp(timestamp: number) {
+        const d = new Date(timestamp);
+        let hr = d.getHours().toString();
+        let min = d.getMinutes().toString();
+        let sec = d.getSeconds().toString();
+
+        if (hr.length === 1) { hr = '0' + hr; }
+        if (min.length === 1) { min = '0' + min; }
+        if (sec.length === 1) { sec = '0' + sec; }
+
+        return hr + ':' + min + ':' + sec;
     }
 }
 
