@@ -27,7 +27,7 @@ export class LoggerService {
         this.levelColors[this.WARNING] = 'warning';
         this.levelColors[this.INFO] = 'primary';
 
-        console.log = (msg) => {
+        /*console.log = (msg) => {
             this.log(msg);
         };
         console.info = (msg) => {
@@ -38,7 +38,7 @@ export class LoggerService {
         };
         console.warn = (msg) => {
             this.warn(msg);
-        };
+        };*/
     }
 
     public stdlog = console.log.bind(console);

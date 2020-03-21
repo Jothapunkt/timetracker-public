@@ -1,9 +1,12 @@
 <ion-header>
-  <ion-toolbar>
-    <ion-title>invoice</ion-title>
+  <ion-toolbar color="warning">
+    <ion-back-button slot="start"></ion-back-button>
+    <ion-title>Rechnung</ion-title>
+    <ion-button slot="end" (click)="copy()" routerLink="/home" color="warning"><ion-icon name="copy"></ion-icon></ion-button>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-
+  <pre>{{ invoiceMakerService.lastInvoice }}</pre>
+  <ion-spinner *ngIf="invoiceMakerService.lastInvoice === ''"></ion-spinner>
 </ion-content>

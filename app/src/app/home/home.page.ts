@@ -19,6 +19,7 @@ export class HomePage {
 
   ionViewDidEnter() {
     this.refresh();
+    this.globalService.selectedBlocks = [];
   }
 
   public refresh() {
@@ -46,5 +47,29 @@ export class HomePage {
           this.logger.log(result.result, this.logger.INFO, 'deleteResults');
           this.refresh();
         });
+  }
+
+  public isSelected(id) {
+    return this.globalService.selectedBlocks.indexOf(id) !== -1;
+  }
+
+  public select(id) {
+    if (!this.isSelected(id)) {
+      this.globalService.selectedBlocks.push(id);
+    }
+  }
+
+  public unselect(id) {
+    if (this.isSelected(id)) {
+      this.globalService.selectedBlocks.splice(this.globalService.selectedBlocks.indexOf(id));
+    }
+  }
+
+  public toggleSelect(id) {
+    if (this.isSelected(id)) {
+      this.unselect(id);
+    } else {
+      this.select(id);
+    }
   }
 }

@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import {InvoiceService} from '../shared/invoice.service';
+import {Plugins} from '@capacitor/core';
 
 @Component({
   selector: 'app-invoice',
@@ -7,9 +9,21 @@ import { Component, OnInit } from '@angular/core';
 })
 export class InvoicePage implements OnInit {
 
-  constructor() { }
+  constructor(private invoiceMakerService: InvoiceService) { }
 
   ngOnInit() {
   }
 
+  ionViewDidEnter() {
+    this.invoiceMakerService.parseInvoice();
+  }
+
+    copy() {
+      const { Clipboard } = Plugins;
+
+      Clipboard.write({
+        string: this.invoiceMakerService.lastInvoice
+      });
+
+    }
 }

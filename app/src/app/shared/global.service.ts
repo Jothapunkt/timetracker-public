@@ -13,5 +13,20 @@ export class GlobalService {
     public selectedBlocks = [];
 
     public invoiceTemplatePath = './assets/templates/invoice';
+
+    getBlock(blockID: any) {
+        let result = null;
+        this.blocks.forEach((block) => {
+            if (block.id === blockID) {
+                result = block;
+            }
+        });
+        this.recycleBlocks.forEach((block) => {
+            if (block.id === blockID) {
+                result = block;
+            }
+        });
+        return result;
+    }
 }
 
