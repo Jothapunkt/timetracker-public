@@ -1,0 +1,64 @@
+\documentclass[a4paper]{arthur-letter}
+\title{WheelScout Rechnung}
+\author{Jakob Hoefner}
+
+\usepackage[english]{babel}
+\usepackage{fontspec}
+\usepackage{luatexbase}
+\usepackage{microtype}
+
+% only needed for the example
+\usepackage{lipsum}
+
+%%=================%%
+%%  Custom colors  %%
+%%=================%%
+
+% \definecolor{boxcolor}{HTML}{0E5484}
+% \definecolor{maincolor}{HTML}{1a4c70}
+% \definecolor{secondcolor}{HTML}{4d4d4d}
+
+%%==========%%
+%%  Header  %%
+%%==========%%
+
+% Set profile info [Following information are optional]
+\profilepic{}      % Path of your picture or let empty
+\letname{}            % Your full name
+\linkedin{}       % Your linkedin
+\github{}              % Your GitHub
+\mail{Jakob.Hoefner@stud.h-da.de}       % Your email
+\numberphone{0152 / 595 888 49}                % Your phone number
+\lettitle{Rechnung Nr. [[firstYear]]-[[firstMonth]]} % Title of your letter
+\site{}                       % Your site
+
+\begin{document}
+    \makeprofile % Set header
+
+    % English commands (address and location at right and recipient at left)
+    \address{Jakob Höfner\\Odenwaldstraße 4 \\64521 Groß-Gerau}
+    \recipient{Zentrum für Angewandte Informatik\\ z.Hd. Herrn Prof. Dr. Urs Andelfinger\\FB Informatik\\Haardtring 100\\64295 Darmstadt} % Recipient address}
+    \location{Groß-Gerau, [[currentDay]]. [[currentMonthName]] [[currentYear]]}
+
+    \begin{letter}
+            \\\\\\\\\\\\\\
+            \opening{Guten Tag,}
+
+            für meine Tätigkeiten im Rahmen des WheelScout Projekts stelle ich für den Zeitraum
+[[firstDay]].[[firstMonth]] - [[lastDay]].[[lastMonth]] [[totalHours]] Stunden, gemäß des beiliegenden Stundenzettels, in Rechnung.
+Ich bitte Sie, den Betrag von [[totalAmount]] Euro auf mein Girokonto bei der Commerzbank Bank zu überweisen:\\
+\\
+Commerzbank, BIC: COBADEFFXXX\\
+IBAN: DE94 5084 0005 0605 1890 00\\
+Verwendungszweck: [[firstYear]]-[[firstMonth]]\\
+\\
+Ust-IdNr.: xxxxxxxxxxx (oder Steuernummer)\\
+Als Kleinunternehmer im Sinne von § 19 Abs. 1 UStG wird Umsatzsteuer nicht berechnet!
+
+            \closing{Mit freundlichen Grüßen,} % To adapt following recipient
+
+            \signing{Jakob Höfner}
+
+    \end{letter}
+
+\end{document}

@@ -10,6 +10,10 @@ const routes: Routes = [
   {
     path: 'recycle',
     loadChildren: () => import('./recycle/recycle.module').then( m => m.RecyclePageModule)
+  },
+  {
+    path: 'invoice',
+    loadChildren: () => import('./invoice/invoice.module').then( m => m.InvoicePageModule)
   }
 
 ];

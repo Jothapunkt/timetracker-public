@@ -27,5 +27,22 @@ export class BlocksService {
             callback();
         });
     }
+
+    public loadRecycleBlocks(callback = () => {}) {
+        const builder = this.requestsService.getRequestBuilder();
+        builder.setPath('recycle_bin/index.php');
+        builder.setHost(this.globalService.apiHost);
+        builder.addParam('token', this.globalService.token);
+        builder.get().subscribe( (result: any) => {
+            if (result.success) {
+                this.globalService.recycleBlocks = result.result;
+            } else {
+                this.logger.error(result.error, 'recycleBlocksLoadError');
+            }
+            callback();
+        });
+    }
 }
+
+
 

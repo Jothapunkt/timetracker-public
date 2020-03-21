@@ -3,6 +3,7 @@
     <ion-title>
       Zeiterfassung
     </ion-title>
+    <ion-button slot="end" routerLink="/recycle" color="warning"><ion-icon name="trash"></ion-icon></ion-button>
   </ion-toolbar>
 </ion-header>
 
@@ -10,12 +11,6 @@
   <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title color="tertiary" size="large">Zeiterfassung</ion-title>
-      <ion-button slot="end" routerLink="/recycle" color="warning"><ion-icon name="checkmark"></ion-icon></ion-button>
-    </ion-toolbar>
-  </ion-header>
   <ion-list lines="full">
     <ion-item *ngFor="let block of globalService.blocks">
       <ion-text slot="start">{{block.day + '.' + block.month + '.' + block.year}}</ion-text>

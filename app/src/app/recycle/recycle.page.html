@@ -1,9 +1,23 @@
 <ion-header>
-  <ion-toolbar>
-    <ion-title>recycle</ion-title>
+  <ion-toolbar color="warning">
+    <ion-back-button slot="start"></ion-back-button>
+    <ion-title>Zeitblock wiederherstellen</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
-
+<ion-content [fullscreen]="true">
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+  <ion-list lines="full">
+    <ion-item *ngFor="let block of globalService.recycleBlocks">
+      <ion-text slot="start">{{block.day + '.' + block.month + '.' + block.year}}</ion-text>
+      <ion-text>{{block.description}}</ion-text>
+      <ion-badge slot="end">{{block.duration}}h</ion-badge>
+      <ion-button slot="end" color="success" (click)="restore(block.id)"><ion-icon name="refresh"></ion-icon></ion-button>
+    </ion-item>
+    <ion-item *ngIf="globalService.recycleBlocks.length === 0">
+      <ion-text>Der Papierkorb ist leer.</ion-text>
+    </ion-item>
+  </ion-list>
 </ion-content>
