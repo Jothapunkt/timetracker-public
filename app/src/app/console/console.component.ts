@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
 import {LoggerService} from '../shared/logger.service';
 
 @Component({
@@ -8,8 +8,17 @@ import {LoggerService} from '../shared/logger.service';
 })
 export class ConsoleComponent implements OnInit {
 
-  constructor(private logger: LoggerService) { }
+  constructor(private logger: LoggerService,
+              private ref: ChangeDetectorRef) { }
 
-  ngOnInit() {}
+  ngOnInit() {
+    window.setInterval(() => {
+      this.update();
+    }, 300);
+  }
+
+  public update() {
+    this.ref.detectChanges();
+  }
 
 }

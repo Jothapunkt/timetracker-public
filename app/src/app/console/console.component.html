@@ -5,8 +5,8 @@
 </ion-toolbar>
 <ion-list lines="full" inset="true">
     <ion-item *ngFor="let entry of this.logger.filteredLogs">
-        <ion-badge color="{{this.logger.getColor(entry.level)}}">{{ this.logger.formatTimestamp(entry.timestamp) }}</ion-badge>
-        <ion-badge color="medium" *ngIf="entry.tag !== this.logger.defaultTag">{{entry.tag}}</ion-badge>
-        <ion-text> {{entry.message}} </ion-text><ion-badge *ngIf="entry.count > 1">{{entry.count}}</ion-badge>
+        <ion-badge slot="start" color="{{this.logger.getColor(entry.level)}}">{{ this.logger.formatTimestamp(entry.timestamp) }}</ion-badge>
+        <ion-badge slot="start" color="medium" *ngIf="entry.tag !== this.logger.defaultTag">{{entry.tag}}</ion-badge>
+        <ion-text> {{entry.message}} </ion-text><ion-badge slot="end" *ngIf="entry.count > 1">{{entry.count}}</ion-badge>
     </ion-item>
 </ion-list>

@@ -3,7 +3,7 @@ include "../include/allow_cors.php";
 include "../include/db_connect.php";
 include "../include/init.php";
 
-$query = "SELECT * FROM arbeitsblock where deleted = false";
+$query = "SELECT * FROM arbeitsblock where deleted = true";
 
 $result = array();
 

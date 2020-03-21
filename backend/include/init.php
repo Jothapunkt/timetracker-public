@@ -15,6 +15,7 @@ function stop() {
 	}
 	$db->close();
 
+    http_response_code(200);
 	die(json_encode($out));
 }
 

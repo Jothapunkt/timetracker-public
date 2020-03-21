@@ -27,17 +27,17 @@ export class LoggerService {
         this.levelColors[this.WARNING] = 'warning';
         this.levelColors[this.INFO] = 'primary';
 
-        console.log = () => {
-            this.log(Array.from(arguments).join(' '));
+        console.log = (msg) => {
+            this.log(msg);
         };
-        console.info = () => {
-            this.log(Array.from(arguments).join(' '));
+        console.info = (msg) => {
+            this.log(msg);
         };
-        console.error = () => {
-            this.error(Array.from(arguments).join(' '));
+        console.error = (msg) => {
+            this.error(msg);
         };
-        console.warn = () => {
-            this.warn(Array.from(arguments).join(' '));
+        console.warn = (msg) => {
+            this.warn(msg);
         };
     }
 
@@ -107,10 +107,9 @@ export class LoggerService {
             message,
             level,
             tag,
-            timestamp: new Date().getTime()
+            timestamp: new Date().getTime(),
+            count: 1
         };
-
-        this.logs.push(entry);
 
         if (logConsole) {
             switch (level) {
@@ -124,6 +123,15 @@ export class LoggerService {
                     this.stdlog.apply(console, [message]);
             }
         }
+
+        if (this.logs.length > 0) {
+            const lastLog = this.logs[this.logs.length - 1];
+            if (lastLog.tag === tag && lastLog.message === message && lastLog.level === level) {
+                lastLog.count++;
+                return;
+            }
+        }
+        this.logs.push(entry);
 
         this.getFilteredLogs();
     }
@@ -174,7 +182,6 @@ export class LoggerService {
             }
         });
 
-        this.stdlog.apply(console, ['filteredLogs update: ' + this.filteredLogs.length]);
         return this.filteredLogs;
     }
 

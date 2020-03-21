@@ -1,0 +1,22 @@
+<ion-header>
+  <ion-toolbar color="warning">
+    <ion-back-button slot="start"></ion-back-button>
+    <ion-button slot="end" (click)="addService.addBlock()" routerLink="/home" color="warning"><ion-icon name="checkmark"></ion-icon></ion-button>
+    <ion-title>Zeitblock eintragen</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-item lines="none">
+    <ion-label>Datum</ion-label>
+    <ion-datetime [(ngModel)]="addService.date" slot="end" (ionChange)="addService.applyDate()"></ion-datetime>
+  </ion-item>
+  <ion-item>
+    <ion-label>Tätigkeit</ion-label>
+    <ion-input slot="end" [(ngModel)]="this.addService.block.description"></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label>Dauer</ion-label>
+    <ion-input slot="end" step="0.25" type="number" [(ngModel)]="this.addService.block.duration"></ion-input>
+  </ion-item>
+</ion-content>

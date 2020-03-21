@@ -12,6 +12,7 @@ CREATE TABLE arbeitsblock (
 	description VARCHAR(512) NOT NULL,
 	highlighted BOOLEAN NOT NULL,
 	strike BOOLEAN NOT NULL,
+	deleted BOOLEAN NOT NULL,
 	PRIMARY KEY (id)
 );
 

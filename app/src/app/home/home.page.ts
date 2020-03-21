@@ -1,5 +1,8 @@
 import { Component } from '@angular/core';
-import {BlocksService} from "../shared/blocks.service";
+import {BlocksService} from '../shared/blocks.service';
+import {GlobalService} from '../shared/global.service';
+import {RequestService} from '../shared/request.service';
+import {LoggerService} from '../shared/logger.service';
 
 @Component({
   selector: 'app-home',
@@ -8,12 +11,40 @@ import {BlocksService} from "../shared/blocks.service";
 })
 export class HomePage {
 
-  constructor(private blocksService: BlocksService
+  constructor(private blocksService: BlocksService,
+              private globalService: GlobalService,
+              private requestsService: RequestService,
+              private logger: LoggerService
   ) {}
+
+  ionViewDidEnter() {
+    this.refresh();
+  }
+
+  public refresh() {
+    this.blocksService.loadBlocks();
+  }
 
   public doRefresh(event) {
     this.blocksService.loadBlocks(() => {
       event.target.complete();
     });
+  }
+
+  public delete(id) {
+    const builder = this.requestsService.getRequestBuilder();
+    builder.setHost(this.globalService.apiHost)
+        .setPath('/recycle/')
+        .addParam('id', id)
+        .get()
+        .subscribe((result: any) => {
+          if (typeof result === 'undefined') {
+            this.logger.error('No HTTP results', 'deleteRequestFailed');
+            return;
+          }
+
+          this.logger.log(result.result, this.logger.INFO, 'deleteResults');
+          this.refresh();
+        });
   }
 }

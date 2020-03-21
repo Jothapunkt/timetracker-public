@@ -3,11 +3,6 @@ include "../include/allow_cors.php";
 include "../include/db_connect.php";
 include "../include/init.php";
 
-$success = true;
-$error = "none";
-
-$result = "";
-
 $day = date("d");
 $month = date("m");
 $year = date("Y");
@@ -17,32 +12,7 @@ $duration = 0;
 $description = "";
 $highlighted = false;
 $strike = false;
-
-function stop() {
-	global $success, $error, $result, $db, $query;
-	$out = array();
-	$out["success"] = $success;
-	$out["error"] = $error;
-	$out["result"] = $result;
-	
-	if (isset($query)) {
-		$query->close();
-	}
-	$db->close();
-	
-	die(json_encode($out));
-}
-
-function raise($msg) {
-	global $success, $error;
-	$success = false;
-	$error = $msg;
-	stop();
-}
-
-if ($db->connect_error) {
-    raise("Connection failed: " . htmlspecialchars($db->connect_error));
-}
+$deleted = false;
 
 if (isset($_GET["year"])) {
 	$year = $_GET["year"];
@@ -87,12 +57,13 @@ if (isset($_GET["strike"])) {
 	$strike = filter_var($_GET["strike"], FILTER_VALIDATE_BOOLEAN);
 }
 
-$query = $db->prepare("INSERT INTO arbeitsblock (day, month, year, duration, description, highlighted, strike) VALUES (?, ?, ?, ?, ?, ?, ?);");
+$query = $db->prepare("INSERT INTO arbeitsblock (day, month, year, duration, description, highlighted, strike, deleted) VALUES (?, ?, ?, ?, ?, ?, ?, ?);");
+
 if ($query === false) {
 	raise("Prepare() failed: " . htmlspecialchars($db->error));
 }
 
-if ($query->bind_param("iiidsss", $day, $month, $year, $duration, $description, $highlighted, $strike) === false) {
+if ($query->bind_param("iiidssss", $day, $month, $year, $duration, $description, $highlighted, $strike, $deleted) === false) {
 	raise ("Bind failed: " . htmlspecialchars($query->error));
 }
 if ($query->execute() === false) {
