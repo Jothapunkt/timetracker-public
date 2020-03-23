@@ -24,9 +24,6 @@ export class RequestService {
                 return builder;
             },
             setPort: (newPort: string) => {
-                if (newPort.length > 0 && newPort.charAt(0) !== ':') {
-                    newPort = ':' + newPort;
-                }
                 builder.port = newPort;
                 return builder;
             },

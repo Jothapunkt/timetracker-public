@@ -6,7 +6,8 @@
     <ion-button slot="end" routerLink="/recycle" color="warning"><ion-icon name="trash"></ion-icon></ion-button>
   </ion-toolbar>
   <ion-toolbar *ngIf="this.globalService.selectedBlocks.length > 0">
-    <ion-button slot="start" routerLink="/invoice" color="success">Rechnung erstellen</ion-button>
+    <ion-button routerLink="/invoice" (click)="templateService.parseInvoice('invoice')" color="success" style="text-transform: none;">Rechnung</ion-button>
+    <ion-button routerLink="/invoice" color="primary" style="text-transform: none;">Stundenliste</ion-button>
   </ion-toolbar>
 </ion-header>
 
@@ -15,12 +16,12 @@
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
   <ion-list lines="full">
-    <ion-item *ngFor="let block of globalService.blocks" color="{{ this.isSelected(block.id) ? 'info' : undefined }}">
+    <ion-item *ngFor="let block of globalService.blocks" color="{{ this.isSelected(block.id) ? 'primary' : undefined }}">
       <ion-checkbox slot="start" value="{{ this.isSelected(block.id) }}" (ionChange)="this.toggleSelect(block.id);"></ion-checkbox>
       <ion-text slot="start">{{block.day + '.' + block.month}}</ion-text>
       <ion-text>{{block.description}}</ion-text>
       <ion-badge slot="end">{{block.duration}}h</ion-badge>
-      <ion-button slot="end" color="warning"><ion-icon name="pencil"></ion-icon></ion-button>
+      <ion-button slot="end" color="warning" (click)="setEditBlock(block)" routerLink="/edit"><ion-icon name="pencil"></ion-icon></ion-button>
       <ion-button slot="end" color="danger" (click)="delete(block.id)"><ion-icon name="trash"></ion-icon></ion-button>
     </ion-item>
     <ion-item *ngIf="globalService.blocks.length === 0">

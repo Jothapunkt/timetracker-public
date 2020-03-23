@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {InvoiceService} from '../shared/invoice.service';
+import {TemplateService} from '../shared/template.service';
 import {Plugins} from '@capacitor/core';
 
 @Component({
@@ -9,20 +9,20 @@ import {Plugins} from '@capacitor/core';
 })
 export class InvoicePage implements OnInit {
 
-  constructor(private invoiceMakerService: InvoiceService) { }
+  constructor(private templateService: TemplateService) { }
 
   ngOnInit() {
   }
 
   ionViewDidEnter() {
-    this.invoiceMakerService.parseInvoice();
+    this.templateService.parseInvoice();
   }
 
     copy() {
       const { Clipboard } = Plugins;
 
       Clipboard.write({
-        string: this.invoiceMakerService.lastInvoice
+        string: this.templateService.lastInvoice
       });
 
     }

@@ -7,6 +7,6 @@
 </ion-header>
 
 <ion-content>
-  <pre>{{ invoiceMakerService.lastInvoice }}</pre>
-  <ion-spinner *ngIf="invoiceMakerService.lastInvoice === ''"></ion-spinner>
+  <pre>{{ templateService.lastInvoice }}</pre>
+  <ion-spinner *ngIf="templateService.lastInvoice === ''" color="primary" name="bubbles"></ion-spinner>
 </ion-content>

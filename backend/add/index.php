@@ -14,6 +14,8 @@ $highlighted = false;
 $strike = false;
 $deleted = false;
 
+$project = "";
+
 if (isset($_GET["year"])) {
 	$year = $_GET["year"];
 	if (!is_numeric($year) || $year < 2020 || $year != round($year, 0)) {
@@ -34,6 +36,12 @@ if (isset($_GET["day"])) {
 	if (!is_numeric($day) || $day < 0 || $day != round($day, 0) || $day > $maxday) {
 		raise(htmlspecialchars("Invalid value for day: $day"));
 	}
+} else {
+	raise("No data for day");
+}
+
+if (isset($_GET["project"])) {
+	$day = $_GET["project"];
 } else {
 	raise("No data for day");
 }

@@ -6,7 +6,7 @@ import {RequestService} from './request.service';
 @Injectable({
     providedIn: 'root'
 })
-export class InvoiceService {
+export class TemplateService {
     // tslint:disable-next-line:max-line-length
     public monthNames = ['Januar', 'Februar', 'März', 'April', 'Mai', 'Juni', 'Juli', 'August', 'September', 'Oktober', 'November', 'Dezember'];
     public perHour = 11;
@@ -16,14 +16,14 @@ export class InvoiceService {
                 private requestsService: RequestService) {
     }
 
-    public parseInvoice() {
+    public parseInvoice(template = 'invoice') {
         this.lastInvoice = '';
         let invoice = '';
 
         const builder = this.requestsService.getRequestBuilder()
             .setHost(this.globalService.apiHost)
             .setPath('/template/')
-            .addParam('template', 'invoice')
+            .addParam('template', template)
             .get().subscribe((result: any) => {
                 invoice = result.result;
 

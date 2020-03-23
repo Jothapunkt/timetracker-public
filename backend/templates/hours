@@ -1,0 +1,42 @@
+\documentclass[a4paper]{arthur-letter}
+\title{[[projectName]]}
+\author{[[name]]}
+
+\usepackage[english]{babel}
+\usepackage{fontspec}
+\usepackage{luatexbase}
+\usepackage{microtype}
+
+% only needed for the example
+\usepackage{lipsum}
+
+%%=================%%
+%%  Custom colors  %%
+%%=================%%
+
+% \definecolor{boxcolor}{HTML}{0E5484}
+% \definecolor{maincolor}{HTML}{1a4c70}
+% \definecolor{secondcolor}{HTML}{4d4d4d}
+
+%%==========%%
+%%  Header  %%
+%%==========%%
+
+% Set profile info [Following information are optional]
+\profilepic{}      % Path of your picture or let empty
+\letname{}            % Your full name
+\linkedin{}       % Your linkedin
+\github{}              % Your GitHub
+\mail{[[mail]]}       % Your email
+\numberphone{[[phone]]}                % Your phone number
+\lettitle{Stundenliste Nr. 2020-3} % Title of your letter
+\site{}                       % Your site
+
+\begin{document}
+    \makeprofile % Set header
+
+    \begin{tabular}{ l | l | l }
+        [[blockInfo]]
+    \end{tabular}{}
+
+\end{document}

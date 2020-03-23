@@ -13,6 +13,9 @@ export class GlobalService {
     public selectedBlocks = [];
 
     public invoiceTemplatePath = './assets/templates/invoice';
+    public currentProject: any = null;
+    public projects: any[] = null;
+    projectCodes: any[] = [];
 
     getBlock(blockID: any) {
         let result = null;

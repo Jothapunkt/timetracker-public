@@ -6,36 +6,25 @@ import {GlobalService} from './global.service';
 @Injectable({
     providedIn: 'root'
 })
-export class AddService {
-    date: string;
+export class EditService {
+    date = '';
     constructor(private requestsService: RequestService,
-                private globalService: GlobalService) {
-        this.reset();
-    }
+                private globalService: GlobalService) {}
 
     public block = {
         day: undefined,
         month: undefined,
         year: undefined,
         description: undefined,
-        duration: undefined
+        duration: undefined,
+        id: undefined
     };
 
-    public reset() {
-        this.block.day = new Date().getDate();
-        this.block.month = new Date().getMonth() + 1;
-        this.block.year = new Date().getFullYear();
-
-        this.block.description = '';
-        this.block.duration = 0;
-
-        this.date = new Date().toDateString();
-    }
-
-    public addBlock() {
+    public editBlock() {
         const builder = this.requestsService.getRequestBuilder();
         builder.setHost(this.globalService.apiHost)
-            .setPath('add/index.php')
+            .setPath('edit/index.php')
+            .addParam('id', this.block.id)
             .addParam('day', this.block.day)
             .addParam('month', this.block.month)
             .addParam('year', this.block.year)
@@ -44,7 +33,6 @@ export class AddService {
             .get().subscribe((result: any) => {
                 console.log(JSON.stringify(result));
         });
-        this.reset();
     }
 
     public applyDate() {
