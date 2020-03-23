@@ -3,6 +3,7 @@ import {StorageService} from '../shared/storage.service';
 import {RequestService} from '../shared/request.service';
 import {GlobalService} from '../shared/global.service';
 import {ProjectService} from '../shared/project.service';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-projects',
@@ -14,7 +15,8 @@ export class ProjectsPage implements OnInit {
   constructor(private storageService: StorageService,
               private requestsService: RequestService,
               private globalService: GlobalService,
-              private projectService: ProjectService) {
+              private projectService: ProjectService,
+              private router: Router) {
   }
 
   public selectedProject = null;
@@ -61,5 +63,10 @@ export class ProjectsPage implements OnInit {
   removeProject(project: any) {
     this.projectService.removeProjectCode(project.code);
     this.collapseAll();
+  }
+
+  openProject(project: any) {
+    this.globalService.currentProject = project;
+    this.router.navigateByUrl('/home');
   }
 }

@@ -19,7 +19,7 @@
     <ion-item *ngFor="let project of this.globalService.projects" color="{{ this.selectedProject === project ? 'primary' : undefined}}">
       <ion-text>{{project.title}}</ion-text>
       <ion-button slot="end" color="warning" (click)="toggleSelect(project)"><ion-icon name="settings"></ion-icon></ion-button>
-      <ion-button slot="end" color="primary"><ion-icon name="arrow-forward"></ion-icon></ion-button>
+      <ion-button slot="end" color="primary" (click)="openProject(project)"><ion-icon name="arrow-forward"></ion-icon></ion-button>
     </ion-item>
     <ion-item color="success" (click)="displayAdd = !displayAdd;">
       <ion-icon name="add-circle" slot="start"></ion-icon><ion-text>Neues Projekt</ion-text>

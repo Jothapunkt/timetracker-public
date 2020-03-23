@@ -3,7 +3,14 @@ include "../include/allow_cors.php";
 include "../include/db_connect.php";
 include "../include/init.php";
 
-$query = "SELECT * FROM arbeitsblock where deleted = false";
+$code = '';
+if (isset($_GET["code"])) {
+    $code = $db->real_escape_string($_GET["code"]);
+} else {
+    raise("No code set");
+};
+
+$query = "SELECT * FROM arbeitsblock where deleted = false AND project='$code'";
 
 $result = array();
 

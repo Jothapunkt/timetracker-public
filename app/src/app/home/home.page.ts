@@ -5,6 +5,7 @@ import {RequestService} from '../shared/request.service';
 import {LoggerService} from '../shared/logger.service';
 import {EditService} from '../shared/edit.service';
 import {TemplateService} from '../shared/template.service';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-home',
@@ -18,15 +19,17 @@ export class HomePage {
               private requestsService: RequestService,
               private logger: LoggerService,
               private editService: EditService,
-              private templateService: TemplateService
+              private templateService: TemplateService,
+              private router: Router
   ) {}
 
   ionViewDidEnter() {
+    if (this.globalService.currentProject === null) {
+      this.router.navigateByUrl('/projects');
+      return;
+    }
     this.refresh();
     this.globalService.selectedBlocks = [];
-    if (this.globalService.currentProject === null) {
-
-    }
   }
 
   public refresh() {
