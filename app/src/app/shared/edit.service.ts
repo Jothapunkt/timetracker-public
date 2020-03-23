@@ -24,6 +24,7 @@ export class EditService {
         const builder = this.requestsService.getRequestBuilder();
         builder.setHost(this.globalService.apiHost)
             .setPath('edit/index.php')
+            .addParam('project', this.globalService.currentProject.code)
             .addParam('id', this.block.id)
             .addParam('day', this.block.day)
             .addParam('month', this.block.month)

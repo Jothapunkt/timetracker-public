@@ -5,15 +5,12 @@ DROP TABLE project;
 
 CREATE TABLE arbeitsblock (
 	id INT AUTO_INCREMENT,
-	user_id INT NOT NULL,
 	project VARCHAR(255) NOT NULL,
 	day INT NOT NULL,
 	month INT NOT NULL,
 	year INT NOT NULL,
 	duration DOUBLE NOT NULL,
 	description VARCHAR(512) NOT NULL,
-	highlighted BOOLEAN NOT NULL,
-	strike BOOLEAN NOT NULL,
 	deleted BOOLEAN NOT NULL,
 	PRIMARY KEY (id)
 );

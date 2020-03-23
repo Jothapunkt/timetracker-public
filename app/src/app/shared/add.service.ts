@@ -34,8 +34,11 @@ export class AddService {
 
     public addBlock() {
         const builder = this.requestsService.getRequestBuilder();
+        console.log('Add project');
+        console.log(this.globalService.currentProject);
         builder.setHost(this.globalService.apiHost)
             .setPath('add/index.php')
+            .addParam('project', this.globalService.currentProject.code)
             .addParam('day', this.block.day)
             .addParam('month', this.block.month)
             .addParam('year', this.block.year)

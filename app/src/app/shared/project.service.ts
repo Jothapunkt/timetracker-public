@@ -59,11 +59,15 @@ export class ProjectService {
                 .get().subscribe((result: any) => {
                 if (result.success) {
                     console.log(result.result);
-                    result.result.forEach((p) => {
-                        if (!this.projectListed(p)) {
-                            this.globalService.projects.push(p);
-                        }
-                    });
+                    if (result.result.length === 0) {
+                        this.removeProjectCode(projectCode);
+                    } else {
+                        result.result.forEach((p) => {
+                            if (!this.projectListed(p)) {
+                                this.globalService.projects.push(p);
+                            }
+                        });
+                    }
                 }
             });
         });

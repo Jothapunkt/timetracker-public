@@ -41,9 +41,9 @@ if (isset($_GET["day"])) {
 }
 
 if (isset($_GET["project"])) {
-	$day = $_GET["project"];
+	$project = $_GET["project"];
 } else {
-	raise("No data for day");
+	raise("No data for project");
 }
 
 if (isset($_GET["duration"])) {
@@ -57,21 +57,13 @@ if (isset($_GET["description"])) {
 	$description = $_GET["description"];
 }
 
-if (isset($_GET["highlighted"])) {
-	$highlighted = filter_var($_GET["highlighted"], FILTER_VALIDATE_BOOLEAN);
-}
-
-if (isset($_GET["strike"])) {
-	$strike = filter_var($_GET["strike"], FILTER_VALIDATE_BOOLEAN);
-}
-
-$query = $db->prepare("INSERT INTO arbeitsblock (day, month, year, duration, description, highlighted, strike, deleted) VALUES (?, ?, ?, ?, ?, ?, ?, ?);");
+$query = $db->prepare("INSERT INTO arbeitsblock (day, month, year, project, duration, description, deleted) VALUES (?, ?, ?, ?, ?, ?, ?);");
 
 if ($query === false) {
 	raise("Prepare() failed: " . htmlspecialchars($db->error));
 }
 
-if ($query->bind_param("iiidssss", $day, $month, $year, $duration, $description, $highlighted, $strike, $deleted) === false) {
+if ($query->bind_param("sssssss", $day, $month, $year, $project, $duration, $description, $deleted) === false) {
 	raise ("Bind failed: " . htmlspecialchars($query->error));
 }
 if ($query->execute() === false) {
