@@ -36,6 +36,7 @@ export class RecyclePage {
     builder.setHost(this.globalService.apiHost)
         .setPath('/restore/')
         .addParam('id', id)
+        .addParam('code', this.globalService.currentProject.code)
         .get()
         .subscribe((result: any) => {
           if (typeof result === 'undefined') {

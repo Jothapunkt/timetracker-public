@@ -15,18 +15,22 @@ export class ProjectService {
         this.reset();
     }
 
-    public block = {
+    public project = {
         rate: undefined,
         invoiceTemplate: undefined,
         hoursTemplate: undefined,
+        sender: undefined,
+        recipient: undefined,
         title: undefined
     };
 
     public reset() {
-        this.block.rate = 10;
-        this.block.invoiceTemplate = 'invoice';
-        this.block.hoursTemplate = 'hours';
-        this.block.title = '';
+        this.project.rate = 10;
+        this.project.invoiceTemplate = 'invoice';
+        this.project.hoursTemplate = 'hours';
+        this.project.title = '';
+        this.project.recipient = '';
+        this.project.sender = '';
         this.code = '';
     }
 
@@ -34,15 +38,17 @@ export class ProjectService {
         const builder = this.requestsService.getRequestBuilder();
         builder.setHost(this.globalService.apiHost)
             .setPath('createProject/index.php')
-            .addParam('rate', this.block.rate)
-            .addParam('invoice_template', this.block.invoiceTemplate)
-            .addParam('hours_template', this.block.hoursTemplate)
-            .addParam('title', this.block.title)
+            .addParam('rate', this.project.rate)
+            .addParam('invoiceTemplate', this.project.invoiceTemplate)
+            .addParam('hoursTemplate', this.project.hoursTemplate)
+            .addParam('sender', this.project.sender)
+            .addParam('recipient', this.project.recipient)
+            .addParam('title', this.project.title)
             .get().subscribe((result: any) => {
                 if (result.success) {
                     this.addProjectCode(result.result);
                     callback();
-                };
+                }
         });
         this.reset();
     }

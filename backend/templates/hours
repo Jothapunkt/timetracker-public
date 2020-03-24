@@ -36,7 +36,7 @@
     \makeprofile % Set header
 
     \begin{tabular}{ l | l | l }
-        [[blockInfo]]
+        [[blockTable]]
     \end{tabular}{}
 
 \end{document}

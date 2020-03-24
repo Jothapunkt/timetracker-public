@@ -12,7 +12,14 @@ if (isset($_GET["id"])) {
 	raise("No data for id");
 }
 
-$query = $db->prepare("UPDATE arbeitsblock SET deleted=true WHERE id=$id");
+$code = '';
+if (isset($_GET["code"])) {
+    $code = $db->real_escape_string($_GET["code"]);
+} else {
+    raise("No code set");
+};
+
+$query = $db->prepare("UPDATE arbeitsblock SET deleted=true WHERE id=$id AND project='$code'");
 if ($query === false) {
 	raise("Prepare() failed: " . htmlspecialchars($db->error));
 }

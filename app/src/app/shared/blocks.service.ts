@@ -33,7 +33,7 @@ export class BlocksService {
         const builder = this.requestsService.getRequestBuilder();
         builder.setPath('recycle_bin/index.php');
         builder.setHost(this.globalService.apiHost);
-        builder.addParam('token', this.globalService.token);
+        builder.addParam('code', this.globalService.currentProject.code);
         builder.get().subscribe( (result: any) => {
             if (result.success) {
                 this.globalService.recycleBlocks = result.result;

@@ -1,7 +1,7 @@
 DROP TABLE arbeitsblock;
 DROP TABLE token;
-DROP TABLE benutzer;
 DROP TABLE project;
+DROP TABLE contact;
 
 CREATE TABLE arbeitsblock (
 	id INT AUTO_INCREMENT,
@@ -26,15 +26,20 @@ CREATE TABLE project (
     id INT AUTO_INCREMENT,
     title VARCHAR(255) NOT NULL,
     code VARCHAR(255) NOT NULL,
-    invoice_template VARCHAR(255) NOT NULL,
-    hours_template VARCHAR(255) NOT NULL,
+    invoiceTemplate VARCHAR(255) NOT NULL,
+    hoursTemplate VARCHAR(255) NOT NULL,
     rate INT NOT NULL,
+    sender VARCHAR(255) NOT NULL,
+    recipient VARCHAR(255) NOT NULL,
     PRIMARY KEY (id)
 );
 
-CREATE TABLE benutzer (
+CREATE TABLE contact (
     id INT AUTO_INCREMENT,
-    username VARCHAR(255) NOT NULL,
-    hash VARCHAR(255) NOT NULL,
+    code VARCHAR(255) NOT NULL,
+    mail VARCHAR(255) NOT NULL,
+    phone VARCHAR(255) NOT NULL,
+    fullname VARCHAR(255) NOT NULL,
+    address VARCHAR(255) NOT NULL,
     PRIMARY KEY (id)
 );

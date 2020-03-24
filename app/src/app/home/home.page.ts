@@ -49,6 +49,7 @@ export class HomePage {
     builder.setHost(this.globalService.apiHost)
         .setPath('/recycle/')
         .addParam('id', id)
+        .addParam('code', this.globalService.currentProject.code)
         .get()
         .subscribe((result: any) => {
           if (typeof result === 'undefined') {

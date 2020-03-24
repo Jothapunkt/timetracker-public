@@ -9,17 +9,16 @@ import {RequestService} from './request.service';
 export class TemplateService {
     // tslint:disable-next-line:max-line-length
     public monthNames = ['Januar', 'Februar', 'März', 'April', 'Mai', 'Juni', 'Juli', 'August', 'September', 'Oktober', 'November', 'Dezember'];
-    public perHour = 11;
     public lastInvoice = '';
 
     constructor(private globalService: GlobalService,
                 private requestsService: RequestService) {
     }
 
-    public parseInvoice(template = 'invoice') {
+    public parseInvoice(template: string) {
         this.lastInvoice = '';
         let invoice = '';
-
+        console.log('Parsing template ' + template);
         const builder = this.requestsService.getRequestBuilder()
             .setHost(this.globalService.apiHost)
             .setPath('/template/')
@@ -39,7 +38,8 @@ export class TemplateService {
                     firstYear: -1,
                     lastDay: -1,
                     lastMonth: -1,
-                    lastYear: -1
+                    lastYear: -1,
+                    blockTable: ''
                 };
 
                 const d = new Date();
@@ -51,6 +51,8 @@ export class TemplateService {
                 let totalHours = 0;
                 let firstTimestamp = new Date().getTime() + 1;
                 let lastTimestamp = 0;
+                const blockTable = [];
+
                 this.globalService.selectedBlocks.forEach((blockID) => {
                     const block = this.globalService.getBlock(blockID);
                     console.log('Block: ' + JSON.stringify(block));
@@ -62,6 +64,12 @@ export class TemplateService {
                     if (block.timestamp > lastTimestamp) {
                         lastTimestamp = block.timestamp;
                     }
+
+                    blockTable.push(block.day
+                        + '.' + block.month
+                        + '.' + block.year
+                        + ' & ' + block.description
+                        + ' & ' + Number(block.duration).toFixed(2).replace('.', ',') + 'h');
                 });
 
                 const firstDate = new Date(firstTimestamp);
@@ -76,8 +84,9 @@ export class TemplateService {
                 vars.lastYear = lastDate.getFullYear();
 
                 vars.totalHours = totalHours.toString().replace('.', ',');
-                vars.totalAmount = (totalHours * this.perHour).toFixed(2).replace('.', ',');
+                vars.totalAmount = (totalHours * Number(this.globalService.currentProject.rate)).toFixed(2).replace('.', ',');
 
+                vars.blockTable = blockTable.join('\\\\');
                 console.log(JSON.stringify(vars));
 
                 Object.keys(vars).forEach((key) => {

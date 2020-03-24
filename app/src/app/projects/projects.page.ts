@@ -4,6 +4,7 @@ import {RequestService} from '../shared/request.service';
 import {GlobalService} from '../shared/global.service';
 import {ProjectService} from '../shared/project.service';
 import {Router} from '@angular/router';
+import {EditProjectService} from '../shared/editProject.service';
 
 @Component({
   selector: 'app-projects',
@@ -16,13 +17,16 @@ export class ProjectsPage implements OnInit {
               private requestsService: RequestService,
               private globalService: GlobalService,
               private projectService: ProjectService,
-              private router: Router) {
+              private router: Router,
+              private editProjectService: EditProjectService) {
   }
 
   public selectedProject = null;
 
   public displayAdd = false;
   public displayImport = false;
+
+  public displayEdit = true;
 
   public collapseAll() {
     this.selectedProject = null;
@@ -53,11 +57,13 @@ export class ProjectsPage implements OnInit {
       this.selectedProject = null;
     } else {
       this.selectedProject = project;
+      this.editProjectService.setProject(project);
     }
   }
 
   alertCode(code: string) {
-    alert(code); // To be expanded
+    alert(code);
+    // May be expanded
   }
 
   removeProject(project: any) {
@@ -65,8 +71,15 @@ export class ProjectsPage implements OnInit {
     this.collapseAll();
   }
 
+  editProject() {
+    this.editProjectService.editProject();
+    // May be expanded
+  }
+
   openProject(project: any) {
     this.globalService.currentProject = project;
+    this.globalService.blocks = [];
+    this.globalService.recycleBlocks = [];
     this.router.navigateByUrl('/home');
   }
 }

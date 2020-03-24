@@ -7,8 +7,8 @@
     <ion-button slot="end" routerLink="/recycle" color="warning"><ion-icon name="trash"></ion-icon></ion-button>
   </ion-toolbar>
   <ion-toolbar *ngIf="this.globalService.selectedBlocks.length > 0">
-    <ion-button routerLink="/invoice" (click)="templateService.parseInvoice('invoice')" color="success" style="text-transform: none;">Rechnung</ion-button>
-    <ion-button routerLink="/invoice" color="primary" style="text-transform: none;">Stundenliste</ion-button>
+    <ion-button routerLink="/invoice" (click)="templateService.parseInvoice(this.globalService.currentProject.invoiceTemplate)" color="success" style="text-transform: none;">Rechnung</ion-button>
+    <ion-button routerLink="/invoice" color="primary" style="text-transform: none;" (click)="templateService.parseInvoice(this.globalService.currentProject.hoursTemplate)">Stundenliste</ion-button>
   </ion-toolbar>
 </ion-header>
 

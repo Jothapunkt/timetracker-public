@@ -12,10 +12,14 @@ export class GlobalService {
     public recycleBlocks = [];
     public selectedBlocks = [];
 
-    public invoiceTemplatePath = './assets/templates/invoice';
     public currentProject: any = null;
     public projects: any[] = null;
+    public contacts: any[] = null;
+
     projectCodes: any[] = [];
+    contactCodes: any[] = [];
+
+    public user: any = null;
 
     getBlock(blockID: any) {
         let result = null;
@@ -32,4 +36,3 @@ export class GlobalService {
         return result;
     }
 }
-

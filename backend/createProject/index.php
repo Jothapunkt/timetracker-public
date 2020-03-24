@@ -6,8 +6,10 @@ include "../include/init.php";
 $code = '';
 $title = '';
 $rate = '10';
-$invoice_template = 'invoice';
-$hours_template = 'hours';
+$invoiceTemplate = 'invoice';
+$hoursTemplate = 'hours';
+$sender = 'mustermann1';
+$recipient = 'mustermann2';
 
 function random_code() {
     $chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHJIKLMNOPQRSTUVWXYZ1234567890";
@@ -22,12 +24,20 @@ function random_code() {
     return $c;
 }
 
-if (isset($_GET["invoice_template"])) {
-    $invoice_template = $_GET["invoice_template"];
+if (isset($_GET["invoiceTemplate"])) {
+    $invoiceTemplate = $_GET["invoiceTemplate"];
 }
 
-if (isset($_GET["hours_template"])) {
-    $hours_template = $_GET["hours_template"];
+if (isset($_GET["hoursTemplate"])) {
+    $hoursTemplate = $_GET["hoursTemplate"];
+}
+
+if (isset($_GET["sender"])) {
+    $sender = $_GET["sender"];
+}
+
+if (isset($_GET["recipient"])) {
+    $recipient = $_GET["recipient"];
 }
 
 if (isset($_GET["title"])) {
@@ -54,13 +64,13 @@ while (!$generated_code) {
 }
 
 
-$query = $db->prepare("INSERT INTO project (code, title, invoice_template, hours_template, rate) VALUES (?, ?, ?, ?, ?);");
+$query = $db->prepare("INSERT INTO project (code, title, invoiceTemplate, hoursTemplate, sender, recipient, rate) VALUES (?, ?, ?, ?, ?, ?, ?);");
 
 if ($query === false) {
 	raise("Prepare() failed: " . htmlspecialchars($db->error));
 }
 
-if ($query->bind_param("sssss", $code, $title, $invoice_template, $hours_template, $rate) === false) {
+if ($query->bind_param("sssssss", $code, $title, $invoiceTemplate, $hoursTemplate, $sender, $recipient, $rate) === false) {
 	raise ("Bind failed: " . htmlspecialchars($query->error));
 }
 if ($query->execute() === false) {

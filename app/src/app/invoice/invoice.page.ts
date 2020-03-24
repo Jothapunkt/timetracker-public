@@ -15,7 +15,6 @@ export class InvoicePage implements OnInit {
   }
 
   ionViewDidEnter() {
-    this.templateService.parseInvoice();
   }
 
     copy() {
