@@ -1,6 +1,7 @@
 <ion-header>
   <ion-toolbar color="warning">
     <ion-title>Projekte</ion-title>
+    <ion-button slot="end" color="warning" routerLink="/contacts"><ion-icon name="book"></ion-icon></ion-button>
   </ion-toolbar>
   <ion-toolbar *ngIf="selectedProject !== null">
     <ion-button style="text-transform: none;" color="success" (click)="alertCode(selectedProject.code)">Code</ion-button>
@@ -16,7 +17,7 @@
     <ion-item *ngIf="this.globalService.projects.length === 0">
       <ion-text>Noch kein Projekt vorhanden</ion-text>
     </ion-item>
-    <ion-item *ngFor="let project of this.globalService.projects" color="{{ this.selectedProject === project ? 'primary' : undefined}}">
+    <ion-item *ngFor="let project of this.globalService.projects" color="{{ this.selectedProject !== null && this.selectedProject.code === project.code ? 'primary' : undefined}}">
       <ion-text>{{project.title}}</ion-text>
       <ion-button slot="end" color="warning" (click)="toggleSelect(project)"><ion-icon name="settings"></ion-icon></ion-button>
       <ion-button slot="end" color="primary" (click)="openProject(project)"><ion-icon name="arrow-forward"></ion-icon></ion-button>

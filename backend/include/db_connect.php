@@ -5,4 +5,5 @@
 	$db_user = "ni163258_1sql1";
 
 	$db = new mysqli($db_server, $db_user, $db_pw, $db_name);
+	$db->query("SET CHARSET utf8;");
 ?>

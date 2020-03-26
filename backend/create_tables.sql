@@ -43,3 +43,8 @@ CREATE TABLE contact (
     address VARCHAR(255) NOT NULL,
     PRIMARY KEY (id)
 );
+
+INSERT INTO contact(code, mail, phone, fullname, address) VALUES ('jakob', 'Jakob.Hoefner@stud.h-da.de', '+49 152 / 595 888 49', 'Jakob Höfner', 'Odenwaldstraße 4 \\\\ 64521 Groß-Gerau');
+INSERT INTO contact(code, mail, phone, fullname, address) VALUES ('fbi', '', '', 'Zentrum für Angewandte Informatik\\\\ z.Hd. Herrn Prof. Dr. Urs Andelfinger\\\\FB Informatik', 'Haardtring 100\\\\64295 Darmstadt');
+INSERT INTO contact(code, mail, phone, fullname, address) VALUES ('mustermann1', 'max.mustermann@gmail.com', '+49 150 / 333 333 33', 'Max Mustermann', 'Musterstraße 3 \\\\ 33333 Musterdorf');
+INSERT INTO contact(code, mail, phone, fullname, address) VALUES ('mustermann2', 'bodo.bauer@yahoo.de', '+49 150 / 555 555 55', 'Bodo Bauer', 'Bauernweg 5 \\\\ 55555 Bauerhausen');

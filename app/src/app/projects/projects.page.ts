@@ -53,7 +53,7 @@ export class ProjectsPage implements OnInit {
   }
 
   public toggleSelect(project: any) {
-    if (this.selectedProject === project) {
+    if (this.selectedProject !== null && this.selectedProject.code === project.code) {
       this.selectedProject = null;
     } else {
       this.selectedProject = project;

@@ -9,13 +9,14 @@ import {StorageService} from './storage.service';
 })
 export class ContactService {
     public code = '';
+
     constructor(private requestsService: RequestService,
                 private globalService: GlobalService,
                 private storageService: StorageService) {
         this.reset();
     }
 
-    public block = {
+    public contact = {
         fullname: undefined,
         phone: undefined,
         mail: undefined,
@@ -23,26 +24,27 @@ export class ContactService {
     };
 
     public reset() {
-        this.block.fullname = '';
-        this.block.phone = '';
-        this.block.mail = '';
-        this.block.address = '';
+        this.contact.fullname = '';
+        this.contact.phone = '';
+        this.contact.mail = '';
+        this.contact.address = '';
         this.code = '';
     }
 
-    public addContact(callback: () => void = () => {}) {
+    public addContact(callback: () => void = () => {
+    }) {
         const builder = this.requestsService.getRequestBuilder();
         builder.setHost(this.globalService.apiHost)
             .setPath('createContact/index.php')
-            .addParam('fullname', this.block.fullname)
-            .addParam('phone', this.block.phone)
-            .addParam('mail', this.block.mail)
-            .addParam('address', this.block.address)
+            .addParam('fullname', this.contact.fullname)
+            .addParam('phone', this.contact.phone)
+            .addParam('mail', this.contact.mail)
+            .addParam('address', this.contact.address)
             .get().subscribe((result: any) => {
-                if (result.success) {
-                    this.addContactCode(result.result);
-                    callback();
-                };
+            if (result.success) {
+                this.addContactCode(result.result);
+                callback();
+            }
         });
         this.reset();
     }
@@ -54,7 +56,7 @@ export class ContactService {
             const builder = this.requestsService.getRequestBuilder();
 
             builder.setHost(this.globalService.apiHost)
-                .setPath('getProject/')
+                .setPath('getContact/')
                 .addParam('code', contactCode)
                 .get().subscribe((result: any) => {
                 if (result.success) {
@@ -62,12 +64,26 @@ export class ContactService {
                     if (result.result.length === 0) {
                         this.removeContactCode(contactCode);
                     } else {
-                        result.result.forEach((p) => {
-                            if (!this.contactListed(p)) {
-                                this.globalService.contacts.push(p);
-                            }
-                        });
+                        if (!this.contactListed(result.result)) {
+                            this.globalService.contacts.push(result.result);
+                        }
                     }
+                }
+            });
+        });
+    }
+
+    public async loadContact(code: string) {
+        return new Promise(resolve => {
+            this.requestsService.getRequestBuilder()
+                .setHost(this.globalService.apiHost)
+                .setPath('getContact/')
+                .addParam('code', code)
+                .get().subscribe((result: any) => {
+                if (result.success) {
+                    resolve(result.result);
+                } else {
+                    resolve(null);
                 }
             });
         });
@@ -84,7 +100,7 @@ export class ContactService {
     public removeContactCode(code: string) {
         while (this.globalService.contactCodes.indexOf(code) !== -1) {
             this.globalService.contactCodes.splice(this.globalService.contactCodes.indexOf(code), 1);
-            this.storageService.set('projectCodes', this.globalService.contactCodes);
+            this.storageService.set('contactCodes', this.globalService.contactCodes);
             this.refreshContacts();
         }
     }

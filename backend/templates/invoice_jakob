@@ -1,6 +1,6 @@
 \documentclass[a4paper]{arthur-letter}
-\title{[[projectName]]}
-\author{[[senderName]]}
+\title{WheelScout Rechnung}
+\author{Jakob Hoefner}
 
 \usepackage[english]{babel}
 \usepackage{fontspec}
@@ -38,7 +38,7 @@
     % English commands (address and location at right and recipient at left)
     \address{[[senderName]]\\[[senderAddress]]}
     \recipient{[[recipientName]]\\[[recipientAddress]]}
-    \location{}
+    \location{Groß-Gerau, [[currentDay]]. [[currentMonthName]] [[currentYear]]}
 
     \begin{letter}
             \\\\\\\\\\\\\\

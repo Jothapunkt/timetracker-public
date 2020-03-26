@@ -63,9 +63,9 @@ if (isset($description)) { array_push($values, "description= '" . mysqli_real_es
 if (count($values) == 0) { raise("No values set"); }
 
 $valueString = join(", ", $values);
-$result = "UPDATE arbeitsblock SET $valueString WHERE id=$id";
+$result = "UPDATE arbeitsblock SET $valueString WHERE id=$id AND project='$code' -- ";
 
-$query = $db->prepare("UPDATE arbeitsblock SET $valueString WHERE id=$id AND project='$project'");
+$query = $db->prepare("UPDATE arbeitsblock SET $valueString WHERE id=$id AND project='$code'");
 if ($query === false) {
 	raise("Prepare() failed: " . htmlspecialchars($db->error));
 }
@@ -73,6 +73,6 @@ if ($query->execute() === false) {
 	raise ("Execute failed: " . htmlspecialchars($query->error));
 }
 
-$result = "Edited successfully";
+$result = $result . "Edited successfully";
 stop();
 ?>

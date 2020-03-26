@@ -2,6 +2,7 @@ import {Injectable} from '@angular/core';
 import {Plugins} from '@capacitor/core';
 import {GlobalService} from './global.service';
 import {RequestService} from './request.service';
+import {ContactService} from './contact.service';
 
 @Injectable({
     providedIn: 'root'
@@ -12,13 +13,17 @@ export class TemplateService {
     public lastInvoice = '';
 
     constructor(private globalService: GlobalService,
-                private requestsService: RequestService) {
+                private requestsService: RequestService,
+                private contactService: ContactService) {
     }
 
-    public parseInvoice(template: string) {
+    public async parseInvoice(template: string) {
         this.lastInvoice = '';
         let invoice = '';
         console.log('Parsing template ' + template);
+        const sender: any = await this.contactService.loadContact(this.globalService.currentProject.sender);
+        console.log('sender: ' + JSON.stringify(sender));
+        const recipient: any = await this.contactService.loadContact(this.globalService.currentProject.recipient);
         const builder = this.requestsService.getRequestBuilder()
             .setHost(this.globalService.apiHost)
             .setPath('/template/')
@@ -39,7 +44,16 @@ export class TemplateService {
                     lastDay: -1,
                     lastMonth: -1,
                     lastYear: -1,
-                    blockTable: ''
+                    blockTable: '',
+                    recipientName: '',
+                    recipientPhone: '',
+                    recipientMail: '',
+                    recipientAddress: '',
+                    senderName: '',
+                    senderPhone: '',
+                    senderMail: '',
+                    senderAddress: '',
+                    projectName: ''
                 };
 
                 const d = new Date();
@@ -87,6 +101,19 @@ export class TemplateService {
                 vars.totalAmount = (totalHours * Number(this.globalService.currentProject.rate)).toFixed(2).replace('.', ',');
 
                 vars.blockTable = blockTable.join('\\\\');
+
+                vars.recipientName = recipient.fullname;
+                vars.recipientPhone = recipient.phone;
+                vars.recipientMail = recipient.mail;
+                vars.recipientAddress = recipient.address;
+
+                vars.senderName = sender.fullname;
+                vars.senderPhone = sender.phone;
+                vars.senderMail = sender.mail;
+                vars.senderAddress = sender.address;
+
+                vars.projectName = this.globalService.currentProject.title;
+
                 console.log(JSON.stringify(vars));
 
                 Object.keys(vars).forEach((key) => {

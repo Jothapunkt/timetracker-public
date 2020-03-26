@@ -16,8 +16,7 @@ $result = array();
 
 $response = $db->query($query);
 while ($row = $response->fetch_assoc()) {
-    array_push($result, $row);
+    $result = $row;
 }
-
 stop();
 ?>
