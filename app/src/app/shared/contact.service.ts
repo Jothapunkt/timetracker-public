@@ -13,6 +13,10 @@ export class ContactService {
     constructor(private requestsService: RequestService,
                 private globalService: GlobalService,
                 private storageService: StorageService) {
+        this.storageService.get('contactCodes', (contactCodes) => {
+            this.globalService.contactCodes = contactCodes;
+            this.refreshContacts();
+        }, ['mustermann1', 'mustermann2']);
         this.reset();
     }
 

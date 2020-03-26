@@ -5,6 +5,7 @@ import {GlobalService} from '../shared/global.service';
 import {ProjectService} from '../shared/project.service';
 import {Router} from '@angular/router';
 import {EditProjectService} from '../shared/editProject.service';
+import {ContactService} from '../shared/contact.service';
 
 @Component({
   selector: 'app-projects',
@@ -18,7 +19,8 @@ export class ProjectsPage implements OnInit {
               private globalService: GlobalService,
               private projectService: ProjectService,
               private router: Router,
-              private editProjectService: EditProjectService) {
+              private editProjectService: EditProjectService,
+              private contactService: ContactService) {
   }
 
   public selectedProject = null;
@@ -37,6 +39,9 @@ export class ProjectsPage implements OnInit {
   ionViewDidEnter() {
     this.collapseAll();
     this.projectService.refreshProjects();
+    this.contactService.refreshContacts();
+    this.projectService.reset();
+    this.editProjectService.reset();
   }
 
   ngOnInit() {
@@ -81,5 +86,11 @@ export class ProjectsPage implements OnInit {
     this.globalService.blocks = [];
     this.globalService.recycleBlocks = [];
     this.router.navigateByUrl('/home');
+  }
+
+  onSelectContact(event) {
+    if (event.target.value === 'openContacts') {
+      this.router.navigateByUrl('/contacts');
+    }
   }
 }

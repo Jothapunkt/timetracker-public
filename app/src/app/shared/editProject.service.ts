@@ -39,6 +39,18 @@ export class EditProjectService {
         });
     }
 
+    public reset() {
+        this.project = {
+            code: undefined,
+            title: undefined,
+            invoiceTemplate: undefined,
+            hoursTemplate: undefined,
+            sender: undefined,
+            recipient: undefined,
+            rate: undefined
+        };
+    }
+
     public setProject(project) {
         this.project.code = project.code;
         this.project.title = project.title;

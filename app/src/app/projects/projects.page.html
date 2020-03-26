@@ -44,11 +44,17 @@
       </ion-item>
       <ion-item *ngIf="displayEdit">
         <ion-label position="floating">Rechnungsabsender</ion-label>
-        <ion-input [(ngModel)]="this.editProjectService.project.sender"></ion-input>
+        <ion-select interface="action-sheet" [(ngModel)]="this.editProjectService.project.sender" (ionChange)="onSelectContact($event)">
+          <ion-select-option *ngFor="let contact of globalService.contacts" value="{{contact.code}}">{{contact.fullname}}</ion-select-option>
+          <ion-select-option value="openContacts" color="primary">Kontaktbuch...</ion-select-option>
+        </ion-select>
       </ion-item>
       <ion-item *ngIf="displayEdit">
         <ion-label position="floating">Rechnungsempfänger</ion-label>
-        <ion-input [(ngModel)]="this.editProjectService.project.recipient"></ion-input>
+        <ion-select interface="action-sheet" [(ngModel)]="this.editProjectService.project.recipient" (ionChange)="onSelectContact($event)">
+          <ion-select-option *ngFor="let contact of globalService.contacts" value="{{contact.code}}">{{contact.fullname}}</ion-select-option>
+          <ion-select-option value="openContacts" color="primary">Kontaktbuch...</ion-select-option>
+        </ion-select>
       </ion-item>
       <ion-item *ngIf="displayEdit">
         <ion-label position="floating">Stundensatz</ion-label>
@@ -79,11 +85,17 @@
     </ion-item>
     <ion-item *ngIf="displayAdd">
       <ion-label position="floating">Rechnungsabsender</ion-label>
-      <ion-input [(ngModel)]="this.projectService.project.sender"></ion-input>
+      <ion-select interface="action-sheet" [(ngModel)]="this.projectService.project.sender" (ionChange)="onSelectContact($event)">
+        <ion-select-option *ngFor="let contact of globalService.contacts" value="{{contact.code}}">{{contact.fullname}}</ion-select-option>
+        <ion-select-option value="openContacts" color="primary">Kontaktbuch...</ion-select-option>
+      </ion-select>
     </ion-item>
     <ion-item *ngIf="displayAdd">
       <ion-label position="floating">Rechnungsempfänger</ion-label>
-      <ion-input [(ngModel)]="this.projectService.project.recipient"></ion-input>
+      <ion-select interface="action-sheet" [(ngModel)]="this.projectService.project.recipient" (ionChange)="onSelectContact($event)">
+        <ion-select-option *ngFor="let contact of globalService.contacts" value="{{contact.code}}">{{contact.fullname}}</ion-select-option>
+        <ion-select-option value="openContacts" color="primary">Kontaktbuch...</ion-select-option>
+      </ion-select>
     </ion-item>
     <ion-item *ngIf="displayAdd">
       <ion-label position="floating">Stundensatz</ion-label>

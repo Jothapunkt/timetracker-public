@@ -41,10 +41,6 @@ export class ContactsPage implements OnInit {
   }
 
   ngOnInit() {
-    this.storageService.get('contactCodes', (contactCodes) => {
-      this.globalService.contactCodes = contactCodes;
-      this.contactService.refreshContacts();
-    }, ['mustermann1', 'mustermann2']);
   }
 
   public toggleSelect(contact: any) {
